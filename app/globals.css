@@ -2,20 +2,169 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+  Omlat design system — "The Modern Exchange House"
+  Light: ivory paper, deep emerald, aged gold.
+  Dark: vault green-black, lifted emerald, warm gold.
+*/
 
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --ease-brand: cubic-bezier(0.2, 0, 0, 1);
+
+    --background: 42 38% 96%;
+    --foreground: 162 30% 11%;
+    --card: 40 33% 99%;
+    --card-foreground: 162 30% 11%;
+    --popover: 40 33% 99%;
+    --popover-foreground: 162 30% 11%;
+    --primary: 161 52% 23%;
+    --primary-foreground: 42 45% 96%;
+    --secondary: 42 25% 91%;
+    --secondary-foreground: 162 30% 14%;
+    --muted: 42 22% 92%;
+    --muted-foreground: 160 10% 40%;
+    --accent: 42 62% 46%;
+    --accent-foreground: 162 30% 10%;
+    --destructive: 4 70% 45%;
+    --destructive-foreground: 0 0% 98%;
+    --success: 152 55% 32%;
+    --border: 42 18% 86%;
+    --input: 42 18% 86%;
+    --ring: 161 52% 30%;
+    --chart-1: 161 52% 30%;
+    --chart-2: 42 62% 46%;
+    --chart-3: 162 30% 11%;
+    --chart-4: 42 25% 70%;
+    --chart-5: 158 35% 45%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 164 26% 6%;
+    --foreground: 42 30% 92%;
+    --card: 163 22% 9%;
+    --card-foreground: 42 30% 92%;
+    --popover: 163 22% 9%;
+    --popover-foreground: 42 30% 92%;
+    --primary: 158 40% 46%;
+    --primary-foreground: 164 30% 7%;
+    --secondary: 162 16% 14%;
+    --secondary-foreground: 42 30% 92%;
+    --muted: 162 16% 13%;
+    --muted-foreground: 160 8% 60%;
+    --accent: 42 65% 58%;
+    --accent-foreground: 164 30% 7%;
+    --destructive: 4 62% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --success: 152 45% 48%;
+    --border: 162 14% 16%;
+    --input: 162 14% 16%;
+    --ring: 158 40% 50%;
+    --chart-1: 158 40% 50%;
+    --chart-2: 42 65% 58%;
+    --chart-3: 42 30% 92%;
+    --chart-4: 162 16% 28%;
+    --chart-5: 158 30% 35%;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground text-pretty;
+  }
+
+  ::selection {
+    background: hsl(var(--accent) / 0.35);
+  }
+
+  /* Hide native number-input spinners — amounts read like a ledger */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Microlabel — engraved banknote lettering */
+  .microlabel {
+    @apply text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground;
+  }
+
+  .shadow-surface {
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.04),
+      0 1px 2px rgba(0, 0, 0, 0.05),
+      0 6px 16px rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .shadow-surface {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 1px 2px rgba(0, 0, 0, 0.24),
+      0 6px 16px rgba(0, 0, 0, 0.28);
+  }
+
+  .shadow-ticket {
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.05),
+      0 2px 4px rgba(0, 0, 0, 0.04),
+      0 12px 32px rgba(0, 0, 0, 0.12);
+  }
+
+  .dark .shadow-ticket {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.07),
+      0 2px 4px rgba(0, 0, 0, 0.3),
+      0 12px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  .outline-image {
+    outline: 1px solid rgba(0, 0, 0, 0.1);
+    outline-offset: 0;
+  }
+
+  .dark .outline-image {
+    outline: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Thin themed scrollbars for currency panels */
+  .scroll-panel {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+  .scroll-panel::-webkit-scrollbar {
+    width: 6px;
+  }
+  .scroll-panel::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 999px;
+  }
+  .scroll-panel::-webkit-scrollbar-track {
+    background: transparent;
+  }
 }
