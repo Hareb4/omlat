@@ -15,6 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import Image from "next/image";
 
 interface CurrencySelectProps {
   currencies: string[];
@@ -37,7 +38,7 @@ export function CurrencySelect({
           role="combobox"
           aria-expanded={open}
           className="w-[200px] justify-between">
-          <img
+          <Image
             src={`https://flagcdn.com/w40/${value
               .toLowerCase()
               .slice(0, 2)}.png`}
@@ -67,7 +68,7 @@ export function CurrencySelect({
                       value === currency ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  <img
+                  <Image
                     src={`https://flagcdn.com/w40/${currency
                       .toLowerCase()
                       .slice(0, 2)}.png`}
