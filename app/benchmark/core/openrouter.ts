@@ -1,8 +1,11 @@
 import type { ModelCallResponse } from "./types";
+import { getClientApiKey } from "./apiKeyStore";
 
 export class MissingApiKeyError extends Error {
   constructor() {
-    super("Add OPENROUTER_API_KEY to .env.local");
+    super(
+      "Missing Authentication header. Paste an OpenRouter key on this page or set OPENROUTER_API_KEY in .env.local."
+    );
     this.name = "MissingApiKeyError";
   }
 }
@@ -13,12 +16,17 @@ export async function callModel(
   mimeType = "image/jpeg"
 ): Promise<ModelCallResponse> {
   const start = Date.now();
+  const clientKey = getClientApiKey();
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  if (clientKey) {
+    headers["x-openrouter-key"] = clientKey;
+  }
 
   const response = await fetch("/api/benchmark/vision", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers,
     body: JSON.stringify({ modelString, base64, mimeType }),
   });
 

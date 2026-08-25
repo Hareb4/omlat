@@ -9,14 +9,15 @@ export const maxDuration = 60;
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
-  const apiKey = getOpenRouterApiKey();
+  const apiKey = getOpenRouterApiKey(request);
   if (!apiKey) {
     return NextResponse.json(
       {
         code: "missing_api_key",
-        error: "Add OPENROUTER_API_KEY to .env.local",
+        error:
+          "Missing Authentication header. Add OPENROUTER_API_KEY to .env.local or paste your OpenRouter key on this page.",
       },
-      { status: 503 }
+      { status: 401 }
     );
   }
 
@@ -43,16 +44,18 @@ export async function POST(request: Request) {
   }
 
   const start = Date.now();
+  const headers = new Headers();
+  headers.set("Authorization", `Bearer ${apiKey}`);
+  headers.set("Content-Type", "application/json");
+  headers.set("HTTP-Referer", "https://omlat.local/benchmark");
+  headers.set("X-Title", "Marketplace Vision Benchmark");
+  headers.set("X-OpenRouter-Title", "Marketplace Vision Benchmark");
 
   try {
     const response = await fetch(OPENROUTER_URL, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://omlat.local/benchmark",
-        "X-Title": "Marketplace Vision Benchmark",
-      },
+      headers,
+      cache: "no-store",
       body: JSON.stringify({
         model: modelString,
         messages: [

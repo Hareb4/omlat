@@ -17,15 +17,15 @@ export function useCurrencyData() {
   useEffect(() => {
     const fetchCurrencyData = async () => {
       try {
-        const response = await fetch(
-          `https://api.fxratesapi.com/latest?base=USD&api_key=${process.env.FXRATES_API_KEY}`
-        );
+        const response = await fetch("/api/rates");
+        const data = (await response.json()) as CurrencyData & {
+          error?: string;
+        };
         if (!response.ok) {
-          throw new Error("Failed to fetch currency data");
+          throw new Error(data.error || "Failed to fetch currency data");
         }
-        const data: CurrencyData = await response.json();
         setCurrencyData(data);
-        setCurrencies(Object.keys(data.rates).sort());
+        setCurrencies(Object.keys(data.rates || {}).sort());
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred");
       } finally {
