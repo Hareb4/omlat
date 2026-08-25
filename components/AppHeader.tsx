@@ -1,5 +1,6 @@
 import { OmlatMark } from "@/components/OmlatMark";
 import { ThemeChanger } from "@/components/ThemeChanger";
+import Link from "next/link";
 
 interface AppHeaderProps {
   ratesDate?: string;
@@ -36,6 +37,12 @@ export function AppHeader({ ratesDate }: AppHeaderProps) {
               </span>
             </div>
           )}
+          <Link
+            href="/benchmark"
+            className="rounded-full bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+          >
+            Vision Bench
+          </Link>
           <ThemeChanger />
         </div>
       </div>
