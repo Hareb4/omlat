@@ -19,10 +19,14 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-Add your rates API key to `.env.local`:
+## Vision benchmark
+
+Open [http://localhost:3000/benchmark](http://localhost:3000/benchmark) for the marketplace vision lab (phone simulation + race mode).
+
+Add an OpenRouter key to `.env.local`:
 
 ```
-FXRATES_API_KEY=your_key_here
+OPENROUTER_API_KEY=your_key_here
 ```
 
 ## Tech
